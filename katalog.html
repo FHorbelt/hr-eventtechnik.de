@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produktkatalog - H&R Eventtechnik</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -16,12 +17,24 @@
                     <h2>H&R Eventtechnik</h2>
                 </div>
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="leistungen.html" class="nav-link">Leistungen</a></li>
-                    <li><a href="katalog.html" class="nav-link active">Katalog</a></li>
-                    <li><a href="konfigurator.html" class="nav-link">Konfigurator</a></li>
-                    <li><a href="gallerie.html" class="nav-link">Galerie</a></li>
-                    <li><a href="kontakt.html" class="nav-link">Kontakt</a></li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="leistungen.html" class="nav-link">Leistungen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="katalog.html" class="nav-link active">Produktkatalog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="konfigurator.html" class="nav-link">Konfigurator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="gallerie.html" class="nav-link">Galerie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kontakt.html" class="nav-link">Kontakt</a>
+                    </li>
                 </ul>
                 <div class="hamburger">
                     <span class="bar"></span>
@@ -46,7 +59,6 @@
             <!-- Filter Buttons -->
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">Alle Produkte</button>
-                <button class="filter
                 <button class="filter-btn" data-filter="tontechnik">Tontechnik</button>
                 <button class="filter-btn" data-filter="lichttechnik">Lichttechnik</button>
             </div>
@@ -60,72 +72,72 @@
                     </div>
                     <div class="product-info">
                         <h3>RCF Evox 8</h3>
-                        <p class="product-description">Kompakte Säulenlautsprecher mit integriertem Subwoofer</p>
+                        <p class="product-description">Premium Säulensystem mit 1400W Peak-Leistung, 8x 2" Fullrange-Treiber und 12" Subwoofer</p>
                         <div class="product-specs">
-                            <span class="spec">Max. 400W</span>
-                            <span class="spec">Bluetooth</span>
-                            <span class="spec">Kompakt</span>
+                            <span class="spec">1400W Peak</span>
+                            <span class="spec">128 dB SPL</span>
+                            <span class="spec">Hi-Fi Klang</span>
                         </div>
                         <div class="product-price">50€/Tag</div>
                         <p class="availability">2 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="rcf-evox-8" data-price="50">Zum Konfigurator</button>
                     </div>
                 </div>
 
-                <!-- RCF 712 MK2 -->
+                <!-- RCF ART 712-A MK2 -->
                 <div class="product-card" data-category="tontechnik">
                     <div class="product-image">
                         <i class="fas fa-volume-up"></i>
                     </div>
                     <div class="product-info">
-                        <h3>RCF 712 MK2 inkl. Stativ</h3>
-                        <p class="product-description">Professioneller Fullrange-Lautsprecher mit Stativ</p>
+                        <h3>RCF ART 712-A MK2</h3>
+                        <p class="product-description">Vielseitiger Vollbereichslautsprecher mit 1400W Peak, FiRPHASE-Technologie und 12" High-Power Woofer</p>
                         <div class="product-specs">
-                            <span class="spec">700W</span>
-                            <span class="spec">12" Woofer</span>
-                            <span class="spec">Mit Stativ</span>
+                            <span class="spec">1400W Peak</span>
+                            <span class="spec">129 dB SPL</span>
+                            <span class="spec">FiRPHASE</span>
                         </div>
                         <div class="product-price">45€/Tag</div>
                         <p class="availability">2 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="rcf-712-mk2-inkl-stativ" data-price="45">Zum Konfigurator</button>
                     </div>
                 </div>
 
-                <!-- RCF NX 932-a -->
+                <!-- RCF NX 932-A -->
                 <div class="product-card" data-category="tontechnik">
                     <div class="product-image">
                         <i class="fas fa-volume-up"></i>
                     </div>
                     <div class="product-info">
-                        <h3>RCF NX 932-a inkl. Kurbelstativ</h3>
-                        <p class="product-description">Hochleistungs-Aktivlautsprecher mit Kurbelstativ</p>
+                        <h3>RCF NX 932-A</h3>
+                        <p class="product-description">Professionelle Hochleistungsbox mit 2100W Peak, Bass Motion Control und 3" Titan/Neodym-Treiber</p>
                         <div class="product-specs">
-                            <span class="spec">1400W</span>
-                            <span class="spec">12" + 1"</span>
-                            <span class="spec">Kurbelstativ</span>
+                            <span class="spec">2100W Peak</span>
+                            <span class="spec">132 dB SPL</span>
+                            <span class="spec">BMC + FiRPHASE</span>
                         </div>
                         <div class="product-price">65€/Tag</div>
                         <p class="availability">2 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="rcf-nx-932a" data-price="65">Zum Konfigurator</button>
                     </div>
                 </div>
 
-                <!-- RCF Sub 905-as MK3 -->
+                <!-- RCF SUB 905-AS MK3 -->
                 <div class="product-card" data-category="tontechnik">
                     <div class="product-image">
                         <i class="fas fa-volume-up"></i>
                     </div>
                     <div class="product-info">
-                        <h3>RCF Sub 905-as MK3</h3>
-                        <p class="product-description">Aktiver Subwoofer für kraftvolle Bässe</p>
+                        <h3>RCF SUB 905-AS MK3</h3>
+                        <p class="product-description">Kraftvoller Aktiv-Subwoofer mit 2200W Peak, 15" Hochleistungs-Woofer und Bass Motion Control</p>
                         <div class="product-specs">
-                            <span class="spec">1400W</span>
+                            <span class="spec">2200W Peak</span>
+                            <span class="spec">133 dB SPL</span>
                             <span class="spec">15" Woofer</span>
-                            <span class="spec">Aktiv</span>
                         </div>
                         <div class="product-price">65€/Tag</div>
                         <p class="availability">2 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="rcf-sub-905as" data-price="65">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -136,15 +148,15 @@
                     </div>
                     <div class="product-info">
                         <h3>Behringer X32 Rack</h3>
-                        <p class="product-description">Digitales Mischpult mit WLAN-Router & Bluetooth</p>
+                        <p class="product-description">Professionelles Digital-Mischpult mit 40 Input-Kanälen, 16 MIDAS-Preamps und iPad/iPhone-Steuerung</p>
                         <div class="product-specs">
-                            <span class="spec">32 Kanäle</span>
-                            <span class="spec">WLAN</span>
-                            <span class="spec">Bluetooth</span>
+                            <span class="spec">40 Inputs</span>
+                            <span class="spec">MIDAS Preamps</span>
+                            <span class="spec">WLAN + BT</span>
                         </div>
                         <div class="product-price">50€/Tag</div>
                         <p class="availability limited">Nur 1 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="behringer-x32" data-price="50">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -155,15 +167,15 @@
                     </div>
                     <div class="product-info">
                         <h3>Behringer XENYX Q1204USB</h3>
-                        <p class="product-description">Kompaktes Mischpult mit USB-Interface</p>
+                        <p class="product-description">Kompaktes Analog-Mischpult mit 4 Mono + 2 Stereo Kanälen, XENYX Mic-Preamps und USB Audio Interface</p>
                         <div class="product-specs">
-                            <span class="spec">12 Kanäle</span>
-                            <span class="spec">USB</span>
+                            <span class="spec">6 Kanäle</span>
+                            <span class="spec">USB Interface</span>
                             <span class="spec">Kompakt</span>
                         </div>
                         <div class="product-price">10€/Tag</div>
                         <p class="availability limited">Nur 1 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="behringer-q1204" data-price="10">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -174,15 +186,15 @@
                     </div>
                     <div class="product-info">
                         <h3>LED Spot 18x1W</h3>
-                        <p class="product-description">Kompakter LED-Scheinwerfer für Akzentbeleuchtung</p>
+                        <p class="product-description">Vielseitige Uplights mit 18x 1W RGBW LEDs, Batteriebetrieb möglich und Musiksteuerung</p>
                         <div class="product-specs">
-                            <span class="spec">18x1W LED</span>
-                            <span class="spec">RGB</span>
-                            <span class="spec">Fernbedienung</span>
+                            <span class="spec">18x1W RGBW</span>
+                            <span class="spec">Batterie</span>
+                            <span class="spec">Sound-to-Light</span>
                         </div>
                         <div class="product-price">3€/Tag</div>
                         <p class="availability">9 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="led-spot-18x1w" data-price="3">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -193,15 +205,15 @@
                     </div>
                     <div class="product-info">
                         <h3>LED Spot Par 56</h3>
-                        <p class="product-description">Klassischer Par-Scheinwerfer mit LED-Technologie</p>
+                        <p class="product-description">Klassische LED-Scheinwerfer mit RGB LED-Bestückung im bewährten Par 56 Standard-Format</p>
                         <div class="product-specs">
-                            <span class="spec">LED Par 56</span>
-                            <span class="spec">RGB</span>
+                            <span class="spec">RGB LED</span>
+                            <span class="spec">Par 56 Format</span>
                             <span class="spec">DMX</span>
                         </div>
                         <div class="product-price">3€/Tag</div>
                         <p class="availability">4 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="led-par-56" data-price="3">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -212,15 +224,15 @@
                     </div>
                     <div class="product-info">
                         <h3>Stairville All FX Bar</h3>
-                        <p class="product-description">Multifunktions-Lichteffektleiste</p>
+                        <p class="product-description">Multifunktions-Lichteffekt mit 4-in-1 Kombination: Strobe + Derby + Laser + Par in einem Gerät</p>
                         <div class="product-specs">
-                            <span class="spec">Multi-FX</span>
-                            <span class="spec">LED</span>
-                            <span class="spec">Automatik</span>
+                            <span class="spec">4-in-1 Effekt</span>
+                            <span class="spec">DMX/Standalone</span>
+                            <span class="spec">Sound-to-Light</span>
                         </div>
                         <div class="product-price">15€/Tag</div>
                         <p class="availability">2 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="stairville-all-fx" data-price="15">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -230,16 +242,16 @@
                         <i class="fas fa-lightbulb"></i>
                     </div>
                     <div class="product-info">
-                        <h3>Stairville CLB2.4 mit Stativ</h3>
-                        <p class="product-description">Kompaktes LED Par System mit Stativ</p>
+                        <h3>Stairville CLB2.4 Compact LED Par System</h3>
+                        <p class="product-description">Komplettes Beleuchtungsset mit 4x kompakte LED Par-Spots, RGBW Farbmischung inkl. T-Bar und Stativ</p>
                         <div class="product-specs">
                             <span class="spec">4x LED Spots</span>
+                            <span class="spec">RGBW</span>
                             <span class="spec">Mit Stativ</span>
-                            <span class="spec">DMX</span>
                         </div>
                         <div class="product-price">15€/Tag</div>
                         <p class="availability limited">Nur 1 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="stairville-clb24" data-price="15">Zum Konfigurator</button>
                     </div>
                 </div>
 
@@ -250,15 +262,15 @@
                     </div>
                     <div class="product-info">
                         <h3>Stairville Wind Up DJ Bundle III</h3>
-                        <p class="product-description">Komplettes DJ-Lichtset mit verschiedenen Effekten</p>
+                        <p class="product-description">Komplette Lichtshow mit 4x Moving Head Spots, 2x Derby-Effekte, 4x Par LED-Spots und DMX-Controller</p>
                         <div class="product-specs">
-                            <span class="spec">DJ Bundle</span>
-                            <span class="spec">Multi-Effekt</span>
-                            <span class="spec">Komplett-Set</span>
+                            <span class="spec">Moving Heads</span>
+                            <span class="spec">DMX Controller</span>
+                            <span class="spec">Transportcase</span>
                         </div>
                         <div class="product-price">50€/Tag</div>
                         <p class="availability limited">Nur 1 Stück verfügbar</p>
-                        <a href="konfigurator.html" class="btn btn-primary add-to-config">Zum Konfigurator</a>
+                        <button class="btn btn-primary add-to-config" data-product="stairville-dj-bundle" data-price="50">Zum Konfigurator</button>
                     </div>
                 </div>
             </div>
@@ -270,8 +282,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>H&R Eventtechnik</h3>
-                    <p>Professionelle Veranstaltungstechnik für unvergessliche Events</p>
+                    <h3>H&R Eventtechnik GbR</h3>
+                    <p>Seit 2018 Ihr zuverlässiger Partner für Veranstaltungstechnik</p>
                 </div>
                 <div class="footer-section">
                     <h4>Kontakt</h4>
@@ -283,7 +295,7 @@
                     <h4>Links</h4>
                     <ul>
                         <li><a href="impressum.html">Impressum</a></li>
-                        <li><a href="kontakt.html">Kontakt</a></li>
+                        <li><a href="#datenschutz">Datenschutz</a></li>
                     </ul>
                 </div>
             </div>
@@ -293,6 +305,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

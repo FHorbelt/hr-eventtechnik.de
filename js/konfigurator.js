@@ -6,20 +6,456 @@ let serviceOptions = {
     mixing: false
 };
 
-// Korrigierte Produktdatenbank mit den richtigen IDs
+// Korrigierte Produktdatenbank mit den richtigen Daten aus paste.txt
 const products = {
     'rcf-evox-8': {
         name: 'RCF Evox 8',
         price: 50,
         category: 'tontechnik',
         maxQuantity: 2,
-        description: 'Kompakte Säulenlautsprecher mit integriertem Subwoofer'
+        description: 'Premium Säulensystem mit 1400W Peak-Leistung, 8x 2" Fullrange-Treiber und 12" Hochleistungs-Subwoofer'
     },
-    'rcf-712-mk2-inkl-stativ':
+    'rcf-712-mk2-inkl-stativ': {
+        name: 'RCF ART 712-A MK2',
+        price: 45,
+        category: 'tontechnik',
+        maxQuantity: 2,
+        description: 'Vielseitiger Vollbereichslautsprecher mit 1400W Peak, FiRPHASE-Technologie und 12" High-Power Woofer'
+    },
+    'rcf-nx-932a': {
+        name: 'RCF NX 932-A',
+        price: 65,
+        category: 'tontechnik',
+        maxQuantity: 2,
+        description: 'Professionelle Hochleistungsbox mit 2100W Peak, Bass Motion Control und 3" Titan/Neodym-Treiber'
+    },
+    'rcf-sub-905as': {
+        name: 'RCF SUB 905-AS MK3',
+        price: 65,
+        category: 'tontechnik',
+        maxQuantity: 2,
+        description: 'Kraftvoller Aktiv-Subwoofer mit 2200W Peak, 15" Hochleistungs-Woofer und Bass Motion Control'
+    },
+    'behringer-x32': {
+        name: 'Behringer X32 Rack',
+        price: 50,
+        category: 'tontechnik',
+        maxQuantity: 1,
+        description: 'Professionelles Digital-Mischpult mit 40 Input-Kanälen, 16 MIDAS-Preamps und iPad/iPhone-Steuerung'
+    },
+    'behringer-q1204': {
+        name: 'Behringer XENYX Q1204USB',
+        price: 10,
+        category: 'tontechnik',
+        maxQuantity: 1,
+        description: 'Kompaktes Analog-Mischpult mit 4 Mono + 2 Stereo Kanälen, XENYX Mic-Preamps und USB Audio Interface'
+    },
+    'led-spot-18x1w': {
+        name: 'LED Spot 18x1W',
+        price: 3,
+        category: 'lichttechnik',
+        maxQuantity: 9,
+        description: 'Vielseitige Uplights mit 18x 1W RGBW LEDs, Batteriebetrieb möglich und Musiksteuerung'
+    },
+    'led-par-56': {
+        name: 'LED Spot Par 56',
+        price: 3,
+        category: 'lichttechnik',
+        maxQuantity: 4,
+        description: 'Klassische LED-Scheinwerfer mit RGB LED-Bestückung im bewährten Par 56 Standard-Format'
+    },
+    'stairville-all-fx': {
+        name: 'Stairville All FX Bar',
+        price: 15,
+        category: 'lichttechnik',
+        maxQuantity: 2,
+        description: 'Multifunktions-Lichteffekt mit 4-in-1 Kombination: Strobe + Derby + Laser + Par'
+    },
+    'stairville-clb24': {
+        name: 'Stairville CLB2.4 Compact LED Par System',
+        price: 15,
+        category: 'lichttechnik',
+        maxQuantity: 1,
+        description: 'Komplettes Beleuchtungsset mit 4x kompakte LED Par-Spots, RGBW Farbmischung inkl. T-Bar und Stativ'
+    },
+    'stairville-dj-bundle': {
+        name: 'Stairville Wind Up DJ Bundle III',
+        price: 50,
+        category: 'lichttechnik',
+        maxQuantity: 1,
+        description: 'Komplette Lichtshow mit 4x Moving Head Spots, 2x Derby-Effekte, 4x Par LED-Spots und DMX-Controller'
+    }
+};
+
+// Initialize Configurator when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.pathname.includes('konfigurator.html')) {
+        initConfigurator();
+        loadSelectedProducts();
+    }
+});
+
+// Initialize Configurator
+function initConfigurator() {
+    initQuantityControls();
+    initServiceOptions();
+    initQuoteRequest();
+    updateCartDisplay();
+}
+
+// Initialize Quantity Controls mit Maximum-Logik
+function initQuantityControls() {
+    const quantityControls = document.querySelectorAll('.quantity-controls');
+    
+    quantityControls.forEach(control => {
+        const minusBtn = control.querySelector('.minus');
+        const plusBtn = control.querySelector('.plus');
+        const quantitySpan = control.querySelector('.quantity');
+        const productElement = control.closest('.config-product');
+        const productId = productElement.getAttribute('data-product');
+        const productPrice = parseInt(productElement.getAttribute('data-price'));
+        const product = products[productId];
+        
+        if (!product) return;
+        
+        const maxQuantity = product.maxQuantity;
+        
+        // Plus button mit Maximum-Check
+        plusBtn.addEventListener('click', () => {
+            const currentQty = parseInt(quantitySpan.textContent);
+            if (currentQty < maxQuantity) {
+                const newQty = currentQty + 1;
+                quantitySpan.textContent = newQty;
+                updateCartItem(productId, newQty, productPrice);
+                
+                // Disable button if maximum reached
+                if (newQty >= maxQuantity) {
+                    plusBtn.disabled = true;
+                    plusBtn.style.opacity = '0.5';
+                    plusBtn.style.cursor = 'not-allowed';
+                    showNotification(`Maximum erreicht: Nur ${maxQuantity} Stück von "${product.name}" verfügbar`, 'warning');
+                }
+            } else {
+                showNotification(`Maximum erreicht: Nur ${maxQuantity} Stück von "${product.name}" verfügbar`, 'warning');
+            }
+        });
+        
+        // Minus button
+        minusBtn.addEventListener('click', () => {
+            const currentQty = parseInt(quantitySpan.textContent);
+            if (currentQty > 0) {
+                const newQty = currentQty - 1;
+                quantitySpan.textContent = newQty;
+                updateCartItem(productId, newQty, productPrice);
+                
+                // Re-enable plus button
+                plusBtn.disabled = false;
+                plusBtn.style.opacity = '1';
+                plusBtn.style.cursor = 'pointer';
+            }
+        });
+        
+        // Initialize button state
+        const currentQty = parseInt(quantitySpan.textContent);
+        if (currentQty >= maxQuantity) {
+            plusBtn.disabled = true;
+            plusBtn.style.opacity = '0.5';
+            plusBtn.style.cursor = 'not-allowed';
+        }
+    });
+}
+
+// Update Cart Item mit Verfügbarkeits-Check
+function updateCartItem(productId, quantity, price) {
+    const product = products[productId];
+    if (!product) return;
+    
+    // Check maximum quantity
+    if (quantity > product.maxQuantity) {
+        showNotification(`Nur ${product.maxQuantity} Stück von "${product.name}" verfügbar!`, 'error');
+        return;
+    }
+    
+    const existingItemIndex = cart.findIndex(item => item.id === productId);
+    
+    if (quantity === 0) {
+        if (existingItemIndex !== -1) {
+            cart.splice(existingItemIndex, 1);
+        }
+    } else {
+        if (existingItemIndex !== -1) {
+            cart[existingItemIndex].quantity = quantity;
+        } else {
+            cart.push({
+                id: productId,
+                name: product.name,
+                price: price,
+                quantity: quantity,
+                maxQuantity: product.maxQuantity
+            });
+        }
+    }
+    
+    updateCartDisplay();
+    saveCartToLocalStorage();
+}
+
+// Initialize Service Options
+function initServiceOptions() {
+    const aufbauCheckbox = document.getElementById('setup-service');
+    const mixingCheckbox = document.getElementById('mixing-service');
+    
+    if (aufbauCheckbox) {
+        aufbauCheckbox.addEventListener('change', (e) => {
+            serviceOptions.aufbau = e.target.checked;
+            updateCartDisplay();
+            saveCartToLocalStorage();
+        });
+    }
+    
+    if (mixingCheckbox) {
+        mixingCheckbox.addEventListener('change', (e) => {
+            serviceOptions.mixing = e.target.checked;
+            updateCartDisplay();
+            saveCartToLocalStorage();
+        });
+    }
+}
+
+// Update Cart Display
+function updateCartDisplay() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalPriceElement = document.getElementById('total-price');
+    const requestButton = document.getElementById('request-quote');
+    
+    if (!cartItemsContainer) return;
+    
+    // Clear cart display
+    cartItemsContainer.innerHTML = '';
+    
+    let subtotal = 0;
+    
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="empty-cart">Noch keine Produkte ausgewählt</p>';
+        if (requestButton) requestButton.disabled = true;
+    } else {
+        // Display cart items
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+            
+            const cartItemElement = document.createElement('div');
+            cartItemElement.className = 'cart-item';
+            cartItemElement.innerHTML = `
+                <div class="cart-item-info">
+                    <h5>${item.name}</h5>
+                    <p>${item.quantity}x ${item.price}€ <span class="availability-info">(max. ${item.maxQuantity})</span></p>
+                </div>
+                <div class="cart-item-price">${itemTotal}€</div>
+            `;
+            
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+        
+        if (requestButton) requestButton.disabled = false;
+    }
+    
+    // Add service options to display
+    if (serviceOptions.aufbau) {
+        subtotal += 100;
+        const serviceItem = document.createElement('div');
+        serviceItem.className = 'cart-item';
+        serviceItem.innerHTML = `
+            <div class="cart-item-info">
+                <h5>Auf- und Abbau</h5>
+                <p>Service</p>
+            </div>
+            <div class="cart-item-price">100€</div>
+        `;
+        cartItemsContainer.appendChild(serviceItem);
+    }
+    
+    if (serviceOptions.mixing) {
+        subtotal += 150;
+        const serviceItem = document.createElement('div');
+        serviceItem.className = 'cart-item';
+        serviceItem.innerHTML = `
+            <div class="cart-item-info">
+                <h5>Live Mixing</h5>
+                <p>Service</p>
+            </div>
+            <div class="cart-item-price">150€</div>
+        `;
+        cartItemsContainer.appendChild(serviceItem);
+    }
+    
+    // Update total price
+    totalPrice = subtotal;
+    if (totalPriceElement) {
+        totalPriceElement.innerHTML = `<strong>Gesamt: ${totalPrice}€/Tag</strong>`;
+    }
+}
+
+// Initialize Quote Request
+function initQuoteRequest() {
+    const requestButton = document.getElementById('request-quote');
+    const modal = document.getElementById('quote-modal');
+    const quoteForm = document.getElementById('quote-form');
+    
+    if (requestButton && modal) {
+        requestButton.addEventListener('click', () => {
+            updateQuoteSummary();
+            modal.style.display = 'block';
+        });
+    }
+    
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', handleQuoteSubmission);
+    }
+}
+
+// Update Quote Summary in Modal
+function updateQuoteSummary() {
+    const summaryContainer = document.getElementById('quote-summary');
+    if (!summaryContainer) return;
+    
+    let summaryHTML = '<h4>Zusammenfassung Ihres Pakets:</h4>';
+    
+    // Products
+    if (cart.length > 0) {
+        summaryHTML += '<div class="summary-section"><h5>Produkte:</h5>';
+        cart.forEach(item => {
+            summaryHTML += `
+                <div class="summary-item">
+                    <span>${item.quantity}x ${item.name}</span>
+                    <span>${item.price * item.quantity}€/Tag</span>
+                </div>
+            `;
+        });
+        summaryHTML += '</div>';
+    }
+    
+    // Services
+    if (serviceOptions.aufbau || serviceOptions.mixing) {
+        summaryHTML += '<div class="summary-section"><h5>Services:</h5>';
+        if (serviceOptions.aufbau) {
+            summaryHTML += `
+                <div class="summary-item">
+                    <span>Auf- und Abbau</span>
+                    <span>100€</span>
+                </div>
+            `;
+        }
+        if (serviceOptions.mixing) {
+            summaryHTML += `
+                <div class="summary-item">
+                    <span>Live Mixing</span>
+                    <span>150€</span>
+                </div>
+            `;
+        }
+        summaryHTML += '</div>';
+    }
+    
+    // Total
+    summaryHTML += `
+        <div class="summary-total">
+            <div class="summary-item">
+                <span><strong>Gesamtpreis pro Tag:</strong></span>
+                <span><strong>${totalPrice}€</strong></span>
+            </div>
+        </div>
+    `;
+    
+    summaryContainer.innerHTML = summaryHTML;
+}
+
+// Handle Quote Form Submission
+function handleQuoteSubmission(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    
+    // Add cart data to form data
+    data.products = cart;
+    data.serviceOptions = serviceOptions;
+    data.totalPrice = totalPrice;
+    
+    // Calculate total price based on duration
+    const duration = parseInt(data['event-duration']);
+    const finalPrice = totalPrice * duration;
+    data.finalPrice = finalPrice;
+    
+    // Show loading state
+    const submitButton = e.target.querySelector('button[type="submit"]');
+    const originalText = submitButton.innerHTML;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird gesendet...';
+    submitButton.disabled = true;
+    
+    // Simulate sending email (replace with actual implementation)
+    setTimeout(() => {
+        // Create email content
+        const emailContent = createEmailContent(data);
+        
+        // Log for development (replace with actual email sending)
+        console.log('Quote request:', data);
+        console.log('Email content:', emailContent);
+        
+        // Show success message
+        showNotification('Ihre Anfrage wurde erfolgreich gesendet! Wir melden uns schnellstmöglich bei Ihnen.', 'success');
+        
+        // Close modal
+        document.getElementById('quote-modal').style.display = 'none';
+        
+        // Reset form and cart
+        e.target.reset();
+        clearCart();
+        
+        // Reset button
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+        
+    }, 2000);
+}
+
+// Create Email Content
+function createEmailContent(data) {
+    let content = `
+Neue Anfrage von H&R Eventtechnik Website
+=========================================
+
+Kundendaten:
+- Name: ${data['customer-name']}
+- E-Mail: ${data['customer-email']}
+- Telefon: ${data['customer-phone'] || 'Nicht angegeben'}
+
+Veranstaltung:
+- Datum: ${formatDate(data['event-date'])}
+- Dauer: ${data['event-duration']} Tag(e)
+- Art: ${data['event-type']}
+- Gäste: ${data['guest-count'] || 'Nicht angegeben'}
+- Ort: ${data['event-location']}
+
+Gewünschte Produkte:
+`;
+
+    data.products.forEach(item => {
+        content += `- ${item.quantity}x ${item.name} (${item.price}€/Tag) [max. ${item.maxQuantity} verfügbar]\n`;
+    });
+    
+    if (data.serviceOptions.aufbau) {
+        content += `- Auf- und Abbau (100€)\n`;
+    }
+    
+    if (data.serviceOptions.mixing) {
+        content += `- Live Mixing (150€)\n`;
+    }
+    
     content += `
 Preisberechnung:
 - Preis pro Tag: ${data.totalPrice}€
-- Dauer: ${data['rental-duration']} Tag(e)
+- Dauer: ${data['event-duration']} Tag(e)
 - Gesamtpreis: ${data.finalPrice}€
 
 Zusätzliche Informationen:
