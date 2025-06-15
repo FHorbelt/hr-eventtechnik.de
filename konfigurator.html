@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurator - H&R Eventtechnik</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>H&R Eventtechnik</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="leistungen.html" class="nav-link">Leistungen</a></li>
+                    <li><a href="katalog.html" class="nav-link">Katalog</a></li>
+                    <li><a href="konfigurator.html" class="nav-link active">Konfigurator</a></li>
+                    <li><a href="gallerie.html" class="nav-link">Galerie</a></li>
+                    <li><a href="kontakt.html" class="nav-link">Kontakt</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Konfigurator</h1>
+            <p>Stellen Sie Ihr individuelles Technik-Paket zusammen</p>
+        </div>
+    </section>
+
+    <!-- Configurator Section -->
+    <section class="configurator-section">
+        <div class="container">
+            <div class="configurator-layout">
+                <!-- Product Selection -->
+                <div class="product-selection">
+                    <h2>Produktauswahl</h2>
+                    
+                    <!-- Tontechnik -->
+                    <div class="category-section">
+                        <h3><i class="fas fa-volume-up"></i> Tontechnik</h3>
+                        <div class="product-list">
+                            <!-- RCF Evox 8 -->
+                            <div class="config-product" data-product="rcf-evox-8" data-price="50" data-max="2">
+                                <div class="product-info">
+                                    <h4>RCF Evox 8</h4>
+                                    <p>Kompakte Säulenlautsprecher mit integriertem Subwoofer - 50€/Tag</p>
+                                    <span class="availability-text">2 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- RCF 712 MK2 -->
+                            <div class="config-product" data-product="rcf-712-mk2-inkl-stativ" data-price="45" data-max="2">
+                                <div class="product-info">
+                                    <h4>RCF 712 MK2 inkl. Stativ</h4>
+                                    <p>Professioneller Fullrange-Lautsprecher mit Stativ - 45€/Tag</p>
+                                    <span class="availability-text">2 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- RCF NX 932-a -->
+                            <div class="config-product" data-product="rcf-nx-932-a-inkl-kurbelstativ" data-price="65" data-max="2">
+                                <div class="product-info">
+                                    <h4>RCF NX 932-a inkl. Kurbelstativ</h4>
+                                    <p>Hochleistungs-Aktivlautsprecher mit Kurbelstativ - 65€/Tag</p>
+                                    <span class="availability-text">2 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- RCF Sub 905-as MK3 -->
+                            <div class="config-product" data-product="rcf-sub-905-as-mk3" data-price="65" data-max="2">
+                                <div class="product-info">
+                                    <h4>RCF Sub 905-as MK3</h4>
+                                    <p>Aktiver Subwoofer für kraftvolle Bässe - 65€/Tag</p>
+                                    <span class="availability-text">2 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Behringer X32 Rack -->
+                            <div class="config-product" data-product="behringer-x32-rack" data-price="50" data-max="1">
+                                <div class="product-info">
+                                    <h4>Behringer X32 Rack</h4>
+                                    <p>Digitales Mischpult mit WLAN-Router & Bluetooth - 50€/Tag</p>
+                                    <span class="availability-text limited">Nur 1 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Behringer XENYX Q1204USB -->
+                            <div class="config-product" data-product="behringer-xenyx-q1204usb" data-price="10" data-max="1">
+                                <div class="product-info">
+                                    <h4>Behringer XENYX Q1204USB</h4>
+                                    <p>Kompaktes Mischpult mit USB-Interface - 10€/Tag</p>
+                                    <span class="availability-text limited">Nur 1 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lichttechnik -->
+                    <div class="category-section">
+                        <h3><i class="fas fa-lightbulb"></i> Lichttechnik</h3>
+                        <div class="product-list">
+                            <!-- LED Spot 18x1W -->
+                            <div class="config-product" data-product="led-spot-18x1w" data-price="3" data-max="9">
+                                <div class="product-info">
+                                    <h4>LED Spot 18x1W</h4>
+                                    <p>Kompakter LED-Scheinwerfer für Akzentbeleuchtung - 3€/Tag</p>
+                                    <span class="availability-text">9 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- LED Spot Par 56 -->
+                            <div class="config-product" data-product="led-spot-par-56" data-price="3" data-max="4">
+                                <div class="product-info">
+                                    <h4>LED Spot Par 56</h4>
+                                    <p>Klassischer Par-Scheinwerfer mit LED-Technologie - 3€/Tag</p>
+                                    <span class="availability-text">4 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Stairville All FX Bar -->
+                            <div class="config-product" data-product="stairville-all-fx-bar" data-price="15" data-max="2">
+                                <div class="product-info">
+                                    <h4>Stairville All FX Bar</h4>
+                                    <p>Multifunktions-Lichteffektleiste - 15€/Tag</p>
+                                    <span class="availability-text">2 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Stairville CLB2.4 -->
+                            <div class="config-product" data-product="stairville-clb2-4-mit-stativ" data-price="15" data-max="1">
+                                <div class="product-info">
+                                    <h4>Stairville CLB2.4 mit Stativ</h4>
+                                    <p>Kompaktes LED Par System mit Stativ - 15€/Tag</p>
+                                    <span class="availability-text limited">Nur 1 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Stairville Wind Up DJ Bundle III -->
+                            <div class="config-product" data-product="stairville-wind-up-dj-bundle-iii" data-price="50" data-max="1">
+                                <div class="product-info">
+                                    <h4>Stairville Wind Up DJ Bundle III</h4>
+                                    <p>Komplettes DJ-Lichtset mit verschiedenen Effekten - 50€/Tag</p>
+                                    <span class="availability-text limited">Nur 1 Stück verfügbar</span>
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn minus" data-action="decrease">-</button>
+                                    <span class="quantity">0</span>
+                                    <button class="qty-btn plus" data-action="increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Section -->
+                <div class="cart-section">
+                    <div class="cart-sticky">
+                        <h2>Ihr Paket</h2>
+                        <div class="cart-items">
+                            <div class="empty-cart">
+                                <p>Noch keine Produkte ausgewählt</p>
+                            </div>
+                        </div>
+                        
+                        <div class="service-options">
+                            <h4>Zusätzliche Services</h4>
+                            <label class="service-option">
+                                <input type="checkbox" id="setup-service" data-price="100">
+                                <span>Auf- und Abbau (+100€)</span>
+                            </label>
+                            <label class="service-option">
+                                <input type="checkbox" id="mixing-service" data-price="150">
+                                <span>Live Mixing (+150€)</span>
+                            </label>
+                        </div>
+
+                        <div class="cart-summary">
+                            <div class="total-price">
+                                <strong>Gesamt: 0€/Tag</strong>
+                            </div>
+                            <button class="btn btn-primary btn-large" id="request-quote" disabled>Angebot anfordern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Modal -->
+    <div id="quote-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Angebot anfordern</h2>
+            
+            <div class="quote-summary">
+                <h4>Ihre Auswahl:</h4>
+                <div id="quote-items"></div>
+                <div class="summary-total">
+                    <div class="summary-item">
+                        <span>Gesamt pro Tag:</span>
+                        <span id="quote-total">0€</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="quote-form">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-Mail *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Telefon</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-date">Veranstaltungsdatum *</label>
+                    <input type="date" id="event-date" name="event-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rental-duration">Mietdauer (Tage) 
+                    <label for="rental-duration">Mietdauer (Tage) *</label>
+                    <select id="rental-duration" name="rental-duration" required>
+                        <option value="">Bitte wählen</option>
+                        <option value="1">1 Tag</option>
+                        <option value="2">2 Tage</option>
+                        <option value="3">3 Tage</option>
+                        <option value="4">4 Tage</option>
+                        <option value="5">5 Tage</option>
+                        <option value="6">6 Tage</option>
+                        <option value="7">1 Woche</option>
+                        <option value="14">2 Wochen</option>
+                        <option value="other">Andere Dauer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-type">Art der Veranstaltung *</label>
+                    <select id="event-type" name="event-type" required>
+                        <option value="">Bitte wählen</option>
+                        <option value="hochzeit">Hochzeit</option>
+                        <option value="geburtstag">Geburtstag</option>
+                        <option value="firmenevent">Firmenevent</option>
+                        <option value="konzert">Konzert</option>
+                        <option value="party">Party</option>
+                        <option value="messe">Messe</option>
+                        <option value="theater">Theater/Aufführung</option>
+                        <option value="konferenz">Konferenz</option>
+                        <option value="festival">Festival</option>
+                        <option value="andere">Andere</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guest-count">Anzahl Gäste (ca.)</label>
+                    <select id="guest-count" name="guest-count">
+                        <option value="">Bitte wählen</option>
+                        <option value="bis-25">Bis 25 Personen</option>
+                        <option value="25-50">25-50 Personen</option>
+                        <option value="50-100">50-100 Personen</option>
+                        <option value="100-200">100-200 Personen</option>
+                        <option value="200-500">200-500 Personen</option>
+                        <option value="ueber-500">Über 500 Personen</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="venue">Veranstaltungsort *</label>
+                    <input type="text" id="venue" name="venue" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional-info">Zusätzliche Informationen</label>
+                    <textarea id="additional-info" name="additional-info" rows="4" placeholder="Besondere Wünsche, Aufbauzeiten, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="privacy-consent" name="privacy-consent" required>
+                        Ich habe die <a href="impressum.html" target="_blank">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu. *
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large">Anfrage senden</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>H&R Eventtechnik</h3>
+                    <p>Professionelle Veranstaltungstechnik für unvergessliche Events</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontakt</h4>
+                    <p><i class="fas fa-phone"></i> 0160/3665926</p>
+                    <p><i class="fas fa-envelope"></i> HR-Eventtechnik@web.de</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Am Kreuzweg 15, 97724 Burglauer</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="impressum.html">Impressum</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 H&R Eventtechnik GbR. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="konfigurator.js"></script>
+</body>
+</html>
