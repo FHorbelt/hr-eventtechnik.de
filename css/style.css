@@ -2088,3 +2088,77 @@ body {
 .cart-items::-webkit-scrollbar-thumb:hover {
     background: var(--accent-dark);
 }
+
+/* Logo-spezifische Styles für die Navigation */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Abstand zwischen Logo und Text */
+}
+
+.nav-logo a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-logo a:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+.nav-logo-image {
+    height: 60px;
+    width: 60px;
+    object-fit: cover; /* Ändert von 'contain' zu 'cover' */
+    transition: var(--transition);
+    border-radius: 50%; /* Macht das Logo rund */
+    /* Option 1: Komplett ohne Rand */
+    
+    /* Option 2: Dünner weißer Rand (auskommentiert) */
+    /* border: 1px solid rgba(255, 255, 255, 0.2); */
+    
+    /* Option 3: Dünner Rand in Akzentfarbe (auskommentiert) */
+    /* border: 1px solid var(--accent-color); */
+    
+    /* Option 4: Subtiler Schatten statt Rand (auskommentiert) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-logo h2 {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0;
+    white-space: nowrap; /* Verhindert Umbruch des Firmennamens */
+}
+
+/* Responsive Anpassungen für kleinere Bildschirme */
+@media (max-width: 768px) {
+    .nav-logo-image {
+        height: 30px;
+        width: 30px;
+    }
+    
+    .nav-logo h2 {
+        font-size: 1.3rem;
+    }
+    
+    .nav-logo {
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-logo-image {
+        height: 25px;
+        width: 25px;
+    }
+    
+    .nav-logo h2 {
+        font-size: 1.2rem;
+    }
+}

@@ -98,7 +98,7 @@ function initProductFilter() {
     }
 }
 
-// Contact Form Handling
+// Contact Form Handling - UPDATED with PHP integration
 function initContactForm() {
     const contactForm = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
@@ -109,7 +109,6 @@ function initContactForm() {
             
             // Get form data
             const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData);
             
             // Show loading state
             const submitButton = contactForm.querySelector('button[type="submit"]');
@@ -117,28 +116,56 @@ function initContactForm() {
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird gesendet...';
             submitButton.disabled = true;
             
-            // Simulate form submission (replace with actual API call)
-            setTimeout(() => {
-                // Hide form and show success message
-                contactForm.style.display = 'none';
-                if (successMessage) {
-                    successMessage.style.display = 'block';
+            // Send to PHP backend
+            fetch('contact.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-                
-                // Log form data (for development)
-                console.log('Form submitted:', data);
-                
-                // Reset form after 5 seconds
-                setTimeout(() => {
-                    contactForm.style.display = 'block';
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Success: Hide form and show success message
+                    contactForm.style.display = 'none';
                     if (successMessage) {
-                        successMessage.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        successMessage.innerHTML = `
+                            <div class="form-message success">
+                                <i class="fas fa-check-circle"></i>
+                                <p>${data.message}</p>
+                            </div>
+                        `;
+                    } else {
+                        showNotification(data.message, 'success');
                     }
-                    contactForm.reset();
+                    
+                    // Reset form after 5 seconds
+                    setTimeout(() => {
+                        contactForm.style.display = 'block';
+                        if (successMessage) {
+                            successMessage.style.display = 'none';
+                        }
+                        contactForm.reset();
+                        submitButton.innerHTML = originalText;
+                        submitButton.disabled = false;
+                    }, 5000);
+                } else {
+                    // Error: Show error message
+                    showNotification(data.message || 'Fehler beim Versenden der Nachricht.', 'error');
                     submitButton.innerHTML = originalText;
                     submitButton.disabled = false;
-                }, 5000);
-            }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Fehler beim Versenden. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt per Telefon.', 'error');
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            });
         });
     }
 }
@@ -350,7 +377,7 @@ function showNotification(message, type = 'info') {
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
         <div class="notification-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
             <span>${message}</span>
         </div>
     `;
@@ -372,13 +399,13 @@ function showNotification(message, type = 'info') {
     });
     
     // Set background color based on type
-    if (type === 'success') {
-        notification.style.backgroundColor = 'var(--success-color)';
-    } else if (type === 'error') {
-        notification.style.backgroundColor = 'var(--danger-color)';
-    } else {
-        notification.style.backgroundColor = 'var(--primary-color)';
-    }
+    const colors = {
+        success: '#10b981',
+        error: '#ef4444',
+        warning: '#f59e0b',
+        info: '#2563eb'
+    };
+    notification.style.backgroundColor = colors[type] || colors.info;
     
     // Add to page
     document.body.appendChild(notification);

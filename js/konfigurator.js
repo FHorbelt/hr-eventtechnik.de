@@ -462,12 +462,11 @@ function updateQuoteSummary() {
     summaryContainer.innerHTML = summaryHTML;
 }
 
-// Handle Quote Form Submission
+// Handle Quote Form Submission - UPDATED with PHP integration
 function handleQuoteSubmission(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
     
     // Calculate product subtotal for setup cost calculation
     let productSubtotal = 0;
@@ -476,15 +475,15 @@ function handleQuoteSubmission(e) {
     });
     
     // Add cart data to form data
-    data.products = cart;
-    data.serviceOptions = serviceOptions;
-    data.setupCost = serviceOptions.aufbau ? calculateSetupCosts(productSubtotal) : 0;
-    data.totalPrice = totalPrice;
+    formData.append('products', JSON.stringify(cart));
+    formData.append('serviceOptions', JSON.stringify(serviceOptions));
+    formData.append('setupCost', serviceOptions.aufbau ? calculateSetupCosts(productSubtotal) : 0);
+    formData.append('totalPrice', totalPrice);
     
     // Calculate total price based on duration
-    const duration = parseInt(data['event-duration']);
+    const duration = parseInt(formData.get('event-duration'));
     const finalPrice = totalPrice * duration;
-    data.finalPrice = finalPrice;
+    formData.append('finalPrice', finalPrice);
     
     // Show loading state
     const submitButton = e.target.querySelector('button[type="submit"]');
@@ -492,30 +491,45 @@ function handleQuoteSubmission(e) {
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird gesendet...';
     submitButton.disabled = true;
     
-    // Simulate sending email (replace with actual implementation)
-    setTimeout(() => {
-        // Create email content
-        const emailContent = createEmailContent(data);
-        
-        // Log for development (replace with actual email sending)
-        console.log('Quote request:', data);
-        console.log('Email content:', emailContent);
-        
-        // Show success message
-        showNotification('Ihre Anfrage wurde erfolgreich gesendet! Wir melden uns schnellstmöglich bei Ihnen.', 'success');
-        
-        // Close modal
-        document.getElementById('quote-modal').style.display = 'none';
-        
-        // Reset form and cart
-        e.target.reset();
-        clearCart();
+    // Send to PHP backend
+    fetch('contact.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Success
+            showNotification(data.message, 'success');
+            
+            // Close modal
+            document.getElementById('quote-modal').style.display = 'none';
+            
+            // Reset form and cart
+            e.target.reset();
+            clearCart();
+        } else {
+            // Error
+            showNotification(data.message || 'Fehler beim Versenden der Anfrage.', 'error');
+        }
         
         // Reset button
         submitButton.innerHTML = originalText;
         submitButton.disabled = false;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Fehler beim Versenden. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt per Telefon.', 'error');
         
-    }, 2000);
+        // Reset button
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+    });
 }
 
 // Create Email Content
