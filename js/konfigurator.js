@@ -462,7 +462,10 @@ function updateQuoteSummary() {
     summaryContainer.innerHTML = summaryHTML;
 }
 
-// Handle Quote Form Submission - UPDATED with PHP integration
+
+// Handle Quote Form Submission - FormSubmit.co Version
+
+
 function handleQuoteSubmission(e) {
     e.preventDefault();
     
@@ -474,16 +477,12 @@ function handleQuoteSubmission(e) {
         productSubtotal += item.price * item.quantity;
     });
     
-    // Add cart data to form data
-    formData.append('products', JSON.stringify(cart));
-    formData.append('serviceOptions', JSON.stringify(serviceOptions));
-    formData.append('setupCost', serviceOptions.aufbau ? calculateSetupCosts(productSubtotal) : 0);
-    formData.append('totalPrice', totalPrice);
-    
-    // Calculate total price based on duration
+    // Calculate final price based on duration
     const duration = parseInt(formData.get('event-duration'));
     const finalPrice = totalPrice * duration;
-    formData.append('finalPrice', finalPrice);
+    
+    // Create detailed email content for FormSubmit
+    let emailContent = createDetailedEmailContent(formData, cart, serviceOptions, totalPrice, finalPrice);
     
     // Show loading state
     const submitButton = e.target.querySelector('button[type="submit"]');
@@ -491,45 +490,112 @@ function handleQuoteSubmission(e) {
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird gesendet...';
     submitButton.disabled = true;
     
-    // Send to PHP backend
-    fetch('contact.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            // Success
-            showNotification(data.message, 'success');
-            
-            // Close modal
-            document.getElementById('quote-modal').style.display = 'none';
-            
-            // Reset form and cart
-            e.target.reset();
-            clearCart();
-        } else {
-            // Error
-            showNotification(data.message || 'Fehler beim Versenden der Anfrage.', 'error');
-        }
-        
-        // Reset button
-        submitButton.innerHTML = originalText;
-        submitButton.disabled = false;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showNotification('Fehler beim Versenden. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt per Telefon.', 'error');
-        
-        // Reset button
-        submitButton.innerHTML = originalText;
-        submitButton.disabled = false;
+    // Create new form for FormSubmit.co
+    const submitForm = document.createElement('form');
+    submitForm.action = 'https://formsubmit.co/HR-Eventtechnik@web.de';
+    submitForm.method = 'POST';
+    submitForm.style.display = 'none';
+    
+    // Add FormSubmit.co fields
+    const fields = {
+        '_subject': 'Konfigurator-Anfrage von Website',
+        '_captcha': 'false',
+        '_template': 'table',
+        '_next': window.location.origin + '/danke.html'
+    };
+    
+    Object.entries(fields).forEach(([name, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        submitForm.appendChild(input);
     });
+    
+    // Add all original form data
+    for (let [key, value] of formData.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        submitForm.appendChild(input);
+    }
+    
+    // Add detailed email content
+    const messageInput = document.createElement('textarea');
+    messageInput.name = 'detaillierte_anfrage';
+    messageInput.value = emailContent;
+    messageInput.style.display = 'none';
+    submitForm.appendChild(messageInput);
+    
+    // Add to DOM and submit
+    document.body.appendChild(submitForm);
+    submitForm.submit();
+    
+    // Clean up (das passiert nach der Weiterleitung sowieso)
+    setTimeout(() => {
+        if (document.body.contains(submitForm)) {
+            document.body.removeChild(submitForm);
+        }
+    }, 1000);
+    
+    // Note: Nach submit wird automatisch zur danke.html weitergeleitet
+}
+
+// Helper-Funktion für detaillierten E-Mail-Inhalt - HINZUFÜGEN zur konfigurator.js
+function createDetailedEmailContent(formData, cart, serviceOptions, totalPrice, finalPrice) {
+    let content = `
+KONFIGURATOR-ANFRAGE VON WEBSITE
+================================
+
+KUNDENDATEN:
+- Name: ${formData.get('customer-name')}
+- E-Mail: ${formData.get('customer-email')}
+- Telefon: ${formData.get('customer-phone') || 'Nicht angegeben'}
+
+VERANSTALTUNG:
+- Datum: ${formatDate(formData.get('event-date'))}
+- Dauer: ${formData.get('event-duration')} Tag(e)
+- Art: ${formData.get('event-type')}
+- Gäste: ${formData.get('guest-count') || 'Nicht angegeben'}
+- Ort: ${formData.get('event-location')}
+
+GEWÜNSCHTE PRODUKTE:
+`;
+
+    cart.forEach(item => {
+        content += `- ${item.quantity}x ${item.name} (${item.price}€/Tag)\n`;
+    });
+    
+    if (serviceOptions.aufbau || serviceOptions.mixing) {
+        content += `\nZUSÄTZLICHE SERVICES:\n`;
+        if (serviceOptions.aufbau) {
+            let productSubtotal = 0;
+            cart.forEach(item => {
+                productSubtotal += item.price * item.quantity;
+            });
+            const setupCost = calculateSetupCosts(productSubtotal);
+            content += `- Auf- und Abbau (${setupCost}€)\n`;
+        }
+        if (serviceOptions.mixing) {
+            content += `- Live Mixing (150€)\n`;
+        }
+    }
+    
+    content += `
+PREISBERECHNUNG:
+- Preis pro Tag: ${totalPrice}€
+- Dauer: ${formData.get('event-duration')} Tag(e)
+- Gesamtpreis: ${finalPrice}€
+
+ZUSÄTZLICHE INFORMATIONEN:
+${formData.get('additional-info') || 'Keine'}
+
+Diese Anfrage wurde automatisch über die Website generiert.
+Zeitpunkt: ${new Date().toLocaleDateString('de-DE')} ${new Date().toLocaleTimeString('de-DE')}
+`;
+
+    return content;
 }
 
 // Create Email Content

@@ -101,73 +101,49 @@ function initProductFilter() {
 // Contact Form Handling - UPDATED with PHP integration
 function initContactForm() {
     const contactForm = document.getElementById('contact-form');
-    const successMessage = document.getElementById('form-success');
     
     if (contactForm) {
+        // FormSubmit.co Setup
+        contactForm.action = 'https://formsubmit.co/HR-Eventtechnik@web.de';
+        contactForm.method = 'POST';
+        
+        // FormSubmit.co spezifische hidden fields hinzufügen
+        addFormSubmitFields(contactForm, 'Kontaktanfrage von Website');
+        
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(contactForm);
-            
             // Show loading state
             const submitButton = contactForm.querySelector('button[type="submit"]');
             const originalText = submitButton.innerHTML;
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird gesendet...';
             submitButton.disabled = true;
             
-            // Send to PHP backend
-            fetch('contact.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Success: Hide form and show success message
-                    contactForm.style.display = 'none';
-                    if (successMessage) {
-                        successMessage.style.display = 'block';
-                        successMessage.innerHTML = `
-                            <div class="form-message success">
-                                <i class="fas fa-check-circle"></i>
-                                <p>${data.message}</p>
-                            </div>
-                        `;
-                    } else {
-                        showNotification(data.message, 'success');
-                    }
-                    
-                    // Reset form after 5 seconds
-                    setTimeout(() => {
-                        contactForm.style.display = 'block';
-                        if (successMessage) {
-                            successMessage.style.display = 'none';
-                        }
-                        contactForm.reset();
-                        submitButton.innerHTML = originalText;
-                        submitButton.disabled = false;
-                    }, 5000);
-                } else {
-                    // Error: Show error message
-                    showNotification(data.message || 'Fehler beim Versenden der Nachricht.', 'error');
-                    submitButton.innerHTML = originalText;
-                    submitButton.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Fehler beim Versenden. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt per Telefon.', 'error');
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-            });
+            // FormSubmit.co übernimmt den Rest automatisch
+            // Nach dem Submit wird zur Danke-Seite weitergeleitet
         });
     }
+}
+
+// Helper-Funktion für FormSubmit.co
+function addFormSubmitFields(form, subject) {
+    // FormSubmit.co spezifische Felder
+    const fields = {
+        '_subject': subject,
+        '_captcha': 'false',
+        '_template': 'table',
+        '_next': window.location.origin + '/danke.html'
+    };
+    
+    Object.entries(fields).forEach(([name, value]) => {
+        // Prüfen ob das Feld bereits existiert
+        const existing = form.querySelector(`input[name="${name}"]`);
+        if (!existing) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value;
+            form.appendChild(input);
+        }
+    });
 }
 
 // Add to Config Buttons (for catalog page)
