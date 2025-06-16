@@ -108,8 +108,17 @@ function calculateSetupCosts(productSubtotal) {
     const minSetupCost = 50;
     const setupPercentage = 0.25; // 25%
     
+    // Check if Stairville DJ Bundle is in cart
+    let djBundleExtra = 0;
+    const djBundleItem = cart.find(item => item.id === 'stairville-dj-bundle');
+    if (djBundleItem && djBundleItem.quantity > 0) {
+        djBundleExtra = 50; // Fixed 50€ extra for DJ Bundle
+    }
+    
     const calculatedCost = Math.round(productSubtotal * setupPercentage);
-    return Math.max(minSetupCost, calculatedCost);
+    const baseCost = Math.max(minSetupCost, calculatedCost);
+    
+    return baseCost + djBundleExtra;
 }
 
 // Get formatted setup cost text (simplified - just show the price)
@@ -286,10 +295,16 @@ function updateCartDisplay() {
         subtotal += setupCost;
         const serviceItem = document.createElement('div');
         serviceItem.className = 'cart-item';
+        
+        // Check if DJ Bundle is included for description
+        const djBundleItem = cart.find(item => item.id === 'stairville-dj-bundle');
+        const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
+        const description = hasDjBundle ? 'Service (inkl. 50€ DJ Bundle Aufschlag)' : 'Service';
+        
         serviceItem.innerHTML = `
             <div class="cart-item-info">
                 <h5>Auf- und Abbau</h5>
-                <p>Service ${getSetupCostText(productSubtotal)}</p>
+                <p>${description}</p>
             </div>
             <div class="cart-item-price">${setupCost}€</div>
         `;
@@ -379,9 +394,13 @@ function updateQuoteSummary() {
         summaryHTML += '<div class="summary-section"><h5>Services:</h5>';
         if (serviceOptions.aufbau) {
             const setupCost = calculateSetupCosts(productSubtotal);
+            const djBundleItem = cart.find(item => item.id === 'stairville-dj-bundle');
+            const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
+            const description = hasDjBundle ? ' (inkl. 50€ DJ Bundle Aufschlag)' : '';
+            
             summaryHTML += `
                 <div class="summary-item">
-                    <span>Auf- und Abbau</span>
+                    <span>Auf- und Abbau${description}</span>
                     <span>${setupCost}€</span>
                 </div>
             `;
@@ -492,7 +511,10 @@ Gewünschte Produkte:
     });
     
     if (data.serviceOptions.aufbau) {
-        content += `- Auf- und Abbau (${data.setupCost}€)\n`;
+        const djBundleItem = data.products.find(item => item.id === 'stairville-dj-bundle');
+        const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
+        const djBundleNote = hasDjBundle ? ' (inkl. 50€ DJ Bundle Aufschlag)' : '';
+        content += `- Auf- und Abbau (${data.setupCost}€)${djBundleNote}\n`;
     }
     
     if (data.serviceOptions.mixing) {
