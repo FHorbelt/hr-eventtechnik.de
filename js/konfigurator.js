@@ -492,7 +492,7 @@ function handleQuoteSubmission(e) {
     
     // Create new form for FormSubmit.co
     const submitForm = document.createElement('form');
-    submitForm.action = 'https://formsubmit.co/HR-Eventtechnik@web.de';
+    submitForm.action = 'https://formsubmit.co/info@hr-eventtechnik.de';
     submitForm.method = 'POST';
     submitForm.style.display = 'none';
     
@@ -501,6 +501,7 @@ function handleQuoteSubmission(e) {
         '_subject': 'Konfigurator-Anfrage von Website',
         '_captcha': 'false',
         '_template': 'table',
+        '_cc': 'HR-Eventtechnik@web.de, horbelt.florian@hr-eventtechnik.de, reichert.julian@hr-eventtechnik.de'
         '_next': window.location.origin + '/danke.html'
     };
     

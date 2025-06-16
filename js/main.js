@@ -104,7 +104,7 @@ function initContactForm() {
     
     if (contactForm) {
         // FormSubmit.co Setup
-        contactForm.action = 'https://formsubmit.co/HR-Eventtechnik@web.de';
+        contactForm.action = 'https://formsubmit.co/horbelt.florian@hr-eventtechnik.de';
         contactForm.method = 'POST';
         
         // FormSubmit.co spezifische hidden fields hinzufügen
@@ -130,6 +130,7 @@ function addFormSubmitFields(form, subject) {
         '_subject': subject,
         '_captcha': 'false',
         '_template': 'table',
+        '_cc': 'HR-Eventtechnik@web.de, horbelt.florian@hr-eventtechnik.de, reichert.julian@hr-eventtechnik.de'
         '_next': window.location.origin + '/danke.html'
     };
     
