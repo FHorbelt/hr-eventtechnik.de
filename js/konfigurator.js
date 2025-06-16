@@ -103,6 +103,21 @@ function initConfigurator() {
     updateCartDisplay();
 }
 
+// Calculate dynamic setup costs
+function calculateSetupCosts(productSubtotal) {
+    const minSetupCost = 50;
+    const setupPercentage = 0.25; // 25%
+    
+    const calculatedCost = Math.round(productSubtotal * setupPercentage);
+    return Math.max(minSetupCost, calculatedCost);
+}
+
+// Get formatted setup cost text (simplified - just show the price)
+function getSetupCostText(productSubtotal) {
+    // Return empty string since we don't want to show calculation details
+    return '';
+}
+
 // Initialize Quantity Controls mit Maximum-Logik
 function initQuantityControls() {
     const quantityControls = document.querySelectorAll('.quantity-controls');
@@ -233,7 +248,13 @@ function updateCartDisplay() {
     // Clear cart display
     cartItemsContainer.innerHTML = '';
     
-    let subtotal = 0;
+    // Calculate product subtotal first
+    let productSubtotal = 0;
+    cart.forEach(item => {
+        productSubtotal += item.price * item.quantity;
+    });
+    
+    let subtotal = productSubtotal;
     
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<p class="empty-cart">Noch keine Produkte ausgewählt</p>';
@@ -242,7 +263,6 @@ function updateCartDisplay() {
         // Display cart items
         cart.forEach(item => {
             const itemTotal = item.price * item.quantity;
-            subtotal += itemTotal;
             
             const cartItemElement = document.createElement('div');
             cartItemElement.className = 'cart-item';
@@ -262,15 +282,16 @@ function updateCartDisplay() {
     
     // Add service options to display
     if (serviceOptions.aufbau) {
-        subtotal += 100;
+        const setupCost = calculateSetupCosts(productSubtotal);
+        subtotal += setupCost;
         const serviceItem = document.createElement('div');
         serviceItem.className = 'cart-item';
         serviceItem.innerHTML = `
             <div class="cart-item-info">
                 <h5>Auf- und Abbau</h5>
-                <p>Service</p>
+                <p>Service ${getSetupCostText(productSubtotal)}</p>
             </div>
-            <div class="cart-item-price">100€</div>
+            <div class="cart-item-price">${setupCost}€</div>
         `;
         cartItemsContainer.appendChild(serviceItem);
     }
@@ -293,6 +314,18 @@ function updateCartDisplay() {
     totalPrice = subtotal;
     if (totalPriceElement) {
         totalPriceElement.innerHTML = `<strong>Gesamt: ${totalPrice}€/Tag</strong>`;
+    }
+    
+    // Update setup service label with current cost
+    updateSetupServiceLabel(productSubtotal);
+}
+
+// Update Setup Service Label
+function updateSetupServiceLabel(productSubtotal) {
+    const setupLabel = document.querySelector('label[for="setup-service"] span');
+    if (setupLabel) {
+        const setupCost = calculateSetupCosts(productSubtotal);
+        setupLabel.textContent = `Auf- und Abbau (+${setupCost}€)`;
     }
 }
 
@@ -321,6 +354,12 @@ function updateQuoteSummary() {
     
     let summaryHTML = '<h4>Zusammenfassung Ihres Pakets:</h4>';
     
+    // Calculate product subtotal
+    let productSubtotal = 0;
+    cart.forEach(item => {
+        productSubtotal += item.price * item.quantity;
+    });
+    
     // Products
     if (cart.length > 0) {
         summaryHTML += '<div class="summary-section"><h5>Produkte:</h5>';
@@ -339,10 +378,11 @@ function updateQuoteSummary() {
     if (serviceOptions.aufbau || serviceOptions.mixing) {
         summaryHTML += '<div class="summary-section"><h5>Services:</h5>';
         if (serviceOptions.aufbau) {
+            const setupCost = calculateSetupCosts(productSubtotal);
             summaryHTML += `
                 <div class="summary-item">
                     <span>Auf- und Abbau</span>
-                    <span>100€</span>
+                    <span>${setupCost}€</span>
                 </div>
             `;
         }
@@ -377,9 +417,16 @@ function handleQuoteSubmission(e) {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     
+    // Calculate product subtotal for setup cost calculation
+    let productSubtotal = 0;
+    cart.forEach(item => {
+        productSubtotal += item.price * item.quantity;
+    });
+    
     // Add cart data to form data
     data.products = cart;
     data.serviceOptions = serviceOptions;
+    data.setupCost = serviceOptions.aufbau ? calculateSetupCosts(productSubtotal) : 0;
     data.totalPrice = totalPrice;
     
     // Calculate total price based on duration
@@ -445,7 +492,7 @@ Gewünschte Produkte:
     });
     
     if (data.serviceOptions.aufbau) {
-        content += `- Auf- und Abbau (100€)\n`;
+        content += `- Auf- und Abbau (${data.setupCost}€)\n`;
     }
     
     if (data.serviceOptions.mixing) {
@@ -657,15 +704,20 @@ function isProductAvailable(productId, requestedQuantity = 1) {
 
 // Get Cart Summary for Display
 function getCartSummary() {
+    let productSubtotal = 0;
+    cart.forEach(item => {
+        productSubtotal += item.price * item.quantity;
+    });
+    
     const summary = {
         items: cart.length,
         totalProducts: cart.reduce((sum, item) => sum + item.quantity, 0),
-        subtotal: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        subtotal: productSubtotal,
         services: 0,
         total: 0
     };
     
-    if (serviceOptions.aufbau) summary.services += 100;
+    if (serviceOptions.aufbau) summary.services += calculateSetupCosts(productSubtotal);
     if (serviceOptions.mixing) summary.services += 150;
     
     summary.total = summary.subtotal + summary.services;
@@ -778,6 +830,7 @@ if (typeof window !== 'undefined') {
         clearCart,
         getCartSummary,
         isProductAvailable,
-        getAvailableQuantity
+        getAvailableQuantity,
+        calculateSetupCosts
     };
 }
