@@ -109,16 +109,27 @@ function calculateSetupCosts(productSubtotal) {
     const setupPercentage = 0.25; // 25%
     
     // Check if Stairville DJ Bundle is in cart
-    let djBundleExtra = 0;
     const djBundleItem = cart.find(item => item.id === 'stairville-dj-bundle');
-    if (djBundleItem && djBundleItem.quantity > 0) {
-        djBundleExtra = 50; // Fixed 50€ extra for DJ Bundle
+    const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
+    
+    if (hasDjBundle) {
+        // Calculate subtotal without DJ Bundle
+        const djBundlePrice = djBundleItem.price * djBundleItem.quantity;
+        const otherItemsSubtotal = productSubtotal - djBundlePrice;
+        
+        if (otherItemsSubtotal > 0) {
+            // DJ Bundle + other items: 50€ base + 25% of other items
+            const additionalCost = Math.round(otherItemsSubtotal * setupPercentage);
+            return 50 + additionalCost;
+        } else {
+            // Only DJ Bundle: 50€ flat
+            return 50;
+        }
+    } else {
+        // Normal calculation without DJ Bundle
+        const calculatedCost = Math.round(productSubtotal * setupPercentage);
+        return Math.max(minSetupCost, calculatedCost);
     }
-    
-    const calculatedCost = Math.round(productSubtotal * setupPercentage);
-    const baseCost = Math.max(minSetupCost, calculatedCost);
-    
-    return baseCost + djBundleExtra;
 }
 
 // Get formatted setup cost text (simplified - just show the price)
@@ -299,7 +310,18 @@ function updateCartDisplay() {
         // Check if DJ Bundle is included for description
         const djBundleItem = cart.find(item => item.id === 'stairville-dj-bundle');
         const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
-        const description = hasDjBundle ? 'Service (inkl. 50€ DJ Bundle Aufschlag)' : 'Service';
+        
+        let description = 'Service';
+        if (hasDjBundle) {
+            const djBundlePrice = djBundleItem.price * djBundleItem.quantity;
+            const otherItemsSubtotal = productSubtotal - djBundlePrice;
+            if (otherItemsSubtotal > 0) {
+                const additionalCost = Math.round(otherItemsSubtotal * 0.25);
+                description = `Service (50€ DJ Bundle + ${additionalCost}€ weitere Artikel)`;
+            } else {
+                description = 'Service (DJ Bundle Pauschal)';
+            }
+        }
         
         serviceItem.innerHTML = `
             <div class="cart-item-info">
@@ -396,7 +418,18 @@ function updateQuoteSummary() {
             const setupCost = calculateSetupCosts(productSubtotal);
             const djBundleItem = cart.find(item => item.id === 'stairville-dj-bundle');
             const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
-            const description = hasDjBundle ? ' (inkl. 50€ DJ Bundle Aufschlag)' : '';
+            
+            let description = '';
+            if (hasDjBundle) {
+                const djBundlePrice = djBundleItem.price * djBundleItem.quantity;
+                const otherItemsSubtotal = productSubtotal - djBundlePrice;
+                if (otherItemsSubtotal > 0) {
+                    const additionalCost = Math.round(otherItemsSubtotal * 0.25);
+                    description = ` (50€ DJ Bundle + ${additionalCost}€ weitere Artikel)`;
+                } else {
+                    description = ' (DJ Bundle Pauschal)';
+                }
+            }
             
             summaryHTML += `
                 <div class="summary-item">
@@ -513,7 +546,26 @@ Gewünschte Produkte:
     if (data.serviceOptions.aufbau) {
         const djBundleItem = data.products.find(item => item.id === 'stairville-dj-bundle');
         const hasDjBundle = djBundleItem && djBundleItem.quantity > 0;
-        const djBundleNote = hasDjBundle ? ' (inkl. 50€ DJ Bundle Aufschlag)' : '';
+        
+        let djBundleNote = '';
+        if (hasDjBundle) {
+            // Calculate product subtotal for email
+            let emailProductSubtotal = 0;
+            data.products.forEach(item => {
+                emailProductSubtotal += item.price * item.quantity;
+            });
+            
+            const djBundlePrice = djBundleItem.price * djBundleItem.quantity;
+            const otherItemsSubtotal = emailProductSubtotal - djBundlePrice;
+            
+            if (otherItemsSubtotal > 0) {
+                const additionalCost = Math.round(otherItemsSubtotal * 0.25);
+                djBundleNote = ` (50€ DJ Bundle + ${additionalCost}€ weitere Artikel)`;
+            } else {
+                djBundleNote = ' (DJ Bundle Pauschal)';
+            }
+        }
+        
         content += `- Auf- und Abbau (${data.setupCost}€)${djBundleNote}\n`;
     }
     
