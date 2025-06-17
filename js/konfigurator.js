@@ -90,7 +90,7 @@ const products = {
         price: 50,
         category: 'lichttechnik',
         maxQuantity: 1,
-        description: 'Komplette Lichtshow mit 4x Moving Head Spots, 2x Derby-Effekte, 4x Par LED-Spots und DMX-Controller'
+        description: 'Bis zu 6m Traverse, stabile Wind-Up-Stative'
     }
 };
 
