@@ -51,7 +51,7 @@ const products = {
         description: 'Kompaktes Analog-Mischpult mit 4 Mono + 2 Stereo Kanälen, XENYX Mic-Preamps und USB Audio Interface'
     },
     'Sennheiser 2-865': {
-        name: 'Sennheiser XSW 2-865 E-Band Vocal Set',
+        name: 'Sennheiser 2-865',
         price: 20,
         category: 'tontechnik',
         maxQuantity: 1,
