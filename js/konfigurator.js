@@ -501,8 +501,8 @@ function handleQuoteSubmission(e) {
         '_subject': 'Konfigurator-Anfrage von Website',
         '_captcha': 'false',
         '_template': 'table',
-        '_cc': 'HR-Eventtechnik@web.de,horbelt.florian@hr-eventtechnik.de,reichert.julian@hr-eventtechnik.de'
         '_next': window.location.origin + '/danke.html'
+        '_cc': 'horbelt.florian@hr-eventtechnik.de,reichert.julian@hr-eventtechnik.de,HR-Eventtechnik@web.de'
     };
     
     Object.entries(fields).forEach(([name, value]) => {
