@@ -632,8 +632,13 @@ body {
     margin-bottom: 1rem;
     font-size: 0.9rem;
     line-height: 1.4;
-    /* Flexibler Bereich - wächst mit */
-    flex-grow: 1;
+    /* FESTE Höhe statt flex-grow: */
+    min-height: 4.2rem;
+    max-height: 4.2rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .product-specs {
@@ -641,17 +646,29 @@ body {
     gap: 0.5rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
-    /* Feste Position */
+    /* NEUE ZEILEN: */
+    align-items: flex-start;
+    align-content: flex-start;
     flex-shrink: 0;
+    min-height: 2rem;
 }
 
 .spec {
-    background: var(--accent-color);
-    color: var(--primary-dark);
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.spec:hover {
+    background: var(--accent-color);
+    color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
 /* WICHTIGER TEIL: Footer-Bereich der Karte */
