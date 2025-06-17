@@ -1478,6 +1478,20 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
+    .service-info h2 {
+        font-size: 1.5rem; /* Statt 2rem */
+        line-height: 1.2;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .service-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
     .hamburger {
         display: flex;
     }
@@ -1605,6 +1619,12 @@ body {
 }
 
 @media (max-width: 480px) {
+
+    .service-info h2 {
+        font-size: 1.3rem;
+        line-height: 1.1;
+    }
+
     .container {
         padding: 0 15px;
     }
