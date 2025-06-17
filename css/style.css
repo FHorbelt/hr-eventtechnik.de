@@ -2116,3 +2116,14 @@ body {
         font-size: 1.2rem;
     }
 }
+
+/* Safari Telefonnummer-Links korrigieren */
+.footer a[href^="tel:"] {
+    color: #cbd5e1 !important;
+    text-decoration: none !important;
+}
+
+.footer a[href^="tel:"]:hover {
+    color: var(--accent-color) !important;
+    text-decoration: underline !important;
+}
