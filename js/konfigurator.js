@@ -50,6 +50,13 @@ const products = {
         maxQuantity: 1,
         description: 'Kompaktes Analog-Mischpult mit 4 Mono + 2 Stereo Kanälen, XENYX Mic-Preamps und USB Audio Interface'
     },
+    'Sennheiser 2-865': {
+        name: 'Sennheiser XSW 2-865 E-Band Vocal Set',
+        price: 20,
+        category: 'tontechnik',
+        maxQuantity: 1,
+        description: 'True Diversity, 821-832 MHz, XLR und Klinkenausgang'
+    },
     'led-spot-18x1w': {
         name: 'LED Spot 18x1W',
         price: 3,
