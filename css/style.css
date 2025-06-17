@@ -2117,13 +2117,63 @@ body {
     }
 }
 
-/* Safari Telefonnummer-Links korrigieren */
-.footer a[href^="tel:"] {
+/* ZUSÄTZLICHE CSS-REGELN FÜR SAFARI LINKS */
+/* Diese Regeln am Ende der style.css hinzufügen: */
+
+/* Footer Links - Einheitliches Styling */
+.footer-link {
     color: #cbd5e1 !important;
     text-decoration: none !important;
+    transition: var(--transition);
 }
 
-.footer a[href^="tel:"]:hover {
+.footer-link:hover {
     color: var(--accent-color) !important;
+    text-decoration: underline !important;
+}
+
+/* Kontakt-Seite Links */
+.contact-link {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+    transition: var(--transition);
+}
+
+.contact-link:hover {
+    color: var(--accent-color) !important;
+    text-decoration: underline !important;
+}
+
+/* Überschreibt Safari's automatische Link-Styles */
+a[href^="tel:"].footer-link,
+a[href^="mailto:"].footer-link,
+a[href^="https://maps"].footer-link {
+    color: #cbd5e1 !important;
+    text-decoration: none !important;
+    -webkit-text-fill-color: #cbd5e1 !important; /* Safari-spezifisch */
+}
+
+a[href^="tel:"].contact-link,
+a[href^="mailto:"].contact-link,
+a[href^="https://maps"].contact-link {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+    -webkit-text-fill-color: var(--primary-color) !important; /* Safari-spezifisch */
+}
+
+/* Hover-Effekte */
+a[href^="tel:"].footer-link:hover,
+a[href^="mailto:"].footer-link:hover,
+a[href^="https://maps"].footer-link:hover {
+    color: var(--accent-color) !important;
+    -webkit-text-fill-color: var(--accent-color) !important;
+    text-decoration: underline !important;
+}
+
+a[href^="tel:"].contact-link:hover,
+a[href^="mailto:"].contact-link:hover,
+a[href^="https://maps"].contact-link:hover {
+    color: var(--accent-color) !important;
+    -webkit-text-fill-color: var(--accent-color) !important;
     text-decoration: underline !important;
 }
