@@ -50,8 +50,8 @@ const products = {
         maxQuantity: 1,
         description: 'Kompaktes Analog-Mischpult mit 4 Mono + 2 Stereo Kanälen, XENYX Mic-Preamps und USB Audio Interface'
     },
-    'Sennheiser 2-865': {
-        name: 'Sennheiser 2-865',
+    'sennheiser-2-865': {
+        name: 'sennheiser-2-865',
         price: 20,
         category: 'tontechnik',
         maxQuantity: 1,
