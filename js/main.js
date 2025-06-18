@@ -104,7 +104,7 @@ function initContactForm() {
     
     if (contactForm) {
         // FormSubmit.co Setup
-        contactForm.action = 'https://formsubmit.co/info@hr-eventtechnik.de';
+        contactForm.action = 'https://formsubmit.co/HR-Eventtechnik@web.de';
         contactForm.method = 'POST';
         
         // FormSubmit.co spezifische hidden fields hinzufügen

@@ -499,7 +499,7 @@ function handleQuoteSubmission(e) {
     
     // Create new form for FormSubmit.co
     const submitForm = document.createElement('form');
-    submitForm.action = 'https://formsubmit.co/info@hr-eventtechnik.de';
+    submitForm.action = 'https://formsubmit.co/HR-Eventtechnik@web.de';
     submitForm.method = 'POST';
     submitForm.style.display = 'none';
     
